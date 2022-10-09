@@ -90,7 +90,7 @@ public:
     return ss.str();
   }
 
-  // Return true when this disk_state is in alternating format. That means
+  // TODO? Return true when this disk_state is in alternating format. That means
   // that the first disk at index 0 is light, the second disk at index 1
   // is dark, and so on for the entire row of disks.
   bool is_initialized() const {
@@ -109,7 +109,7 @@ public:
       return true;
   }
 
-  // Return true when this disk_state is fully sorted, with all light disks on
+  // TODO: Return true when this disk_state is fully sorted, with all light disks on
   // the left (low indices) and all dark disks on the right (high indices).
   bool is_sorted() const {
       
@@ -142,7 +142,7 @@ public:
   }
 };
 
-// Algorithm that sorts disks using the alternate algorithm.
+// TODO: Algorithm that sorts disks using the alternate algorithm.
 sorted_disks sort_alternate(const disk_state& before) {
 	int numOfSwap = 0;                                                                      //record # of step swap
  
@@ -152,7 +152,7 @@ sorted_disks sort_alternate(const disk_state& before) {
 }
 
 
-// Algorithm that sorts disks using the lawnmower algorithm.
+// TODO: Algorithm that sorts disks using the lawnmower algorithm.
 sorted_disks sort_lawnmower(const disk_state& before) {
   	
 	  }
