@@ -29,14 +29,14 @@ Sort Lawnmower:
 def sort_lawnmower(n, disks):
     // docx description sounds a lot like cocktail sort
     // EDIT: it is
-    // TL;DR do bubble sort, but flip direction for each run
-    for (j = 0 to n) do:
-        if <CURRENT RUN IS ODD> then do:  // runs when (i % 2 = 1)
-            for (j = 0 to 2n) do:
-                if <CURRENT AND RIGHT DISK OUT OF ORDER> then <SWAP BOTH DISKS>
-                j++
-        else do:  // runs when current run is even (i % 2 = 0)
-            for (i = 2n to 0) do:
-                if <CURRENT AND LEFT DISK OUT OF ORDER> then <SWAP BOTH DISKS>
-                j--
+    // TL;DR do bubble sort, but do both directions, left then right
+    for (i = 0 to n / 2) do:
+        // left to right
+        for (j = 0 to 2n) do:
+            if <CURRENT AND RIGHT DISK OUT OF ORDER> then <SWAP BOTH DISKS>
+            j++
+        // right to left
+        for (i = 2n to 0) do:
+            if <CURRENT AND LEFT DISK OUT OF ORDER> then <SWAP BOTH DISKS>
+            j--
     return disks

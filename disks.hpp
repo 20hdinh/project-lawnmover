@@ -123,7 +123,7 @@ public:
         return false;
       }
     }
-    
+
     return true;
   }
 };
@@ -159,7 +159,7 @@ sorted_disks sort_alternate(const disk_state& before) {
   auto after = before;  // make copy of the disks to return
     size_t begin = 1;
     size_t end = after.total_count();
-    while (begin > end) {
+    for (size_t i = 0; i < after.total_count() / 2; i++) {
       for (auto i = begin; after.is_index(i); i += 2) {
         if ((after.get(i - 1) == DISK_DARK) && (after.get(i) == DISK_LIGHT)) {
           after.swap(i - 1);
@@ -178,30 +178,28 @@ sorted_disks sort_alternate(const disk_state& before) {
 sorted_disks sort_lawnmower(const disk_state& before) {
   int numOfSwap = 0;
   auto after = before;  // make copy of the disks to return
-  // would prefer to start with index = 0, but disk_state uses initial position of 1
-  // only needs n (i / 2) runs to sort, using i+=2 equivalent b/c always even disks
-    for (size_t i = 1; after.is_index(i); i += 2) {
-      if (i % 2 == 1) {
-        // left to right
-        // keeping the index = 1 consistent
-        // use j - 1 because last position is already checked
-        for (size_t j = 1; after.is_index(j - 1); j++) {
-          if ((after.get(j - 1) == DISK_DARK) && (after.get(j) == DISK_LIGHT)) {
-            after.swap(j - 1);
-            numOfSwap++;
-          }
-        }
-      } else {
-        // right to left
-        // making sure to keep index consistent
-        for (size_t j = after.total_count(); j > 1; j--) {
-          if ((after.get(j - 1) == DISK_LIGHT) && (after.get(j - 2) == DISK_DARK)) {
-            after.swap(j - 2);
-            numOfSwap++;
-          }
-        }
+  // would prefer index = 0, but disk_state uses initial position of 1
+  // we technically do 2 runs each time: left to right, then right to left; so divide by 4
+  for (size_t i = 0; i < (after.total_count() / 4); i++) {
+    // left to right (n = 4: indexes 1 to 7)
+    for (size_t j = 1; after.is_index(j); j++) {
+      // compare current disk to right disk
+      if ((after.get(j - 1) == DISK_DARK) && (after.get(j) == DISK_LIGHT)) {
+        // input the left disk for swap(j - 1)
+        after.swap(j - 1);
+        numOfSwap++;
       }
     }
+    // right to left (n = 4: indexes 8 to 2)
+    for (auto k = after.total_count(); k > 1; k--) {
+      // compare current disk to left disk
+      if ((after.get(k - 1) == DISK_LIGHT) && (after.get(k - 2) == DISK_DARK)) {
+        // input the left disk for swap(k - 2)
+        after.swap(k - 2);
+        numOfSwap++;
+      }
+    }
+  }
 
   return sorted_disks(after, numOfSwap);
 }
